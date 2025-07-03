@@ -11,14 +11,19 @@ const ai = new GoogleGenAI({ apiKey: VITE_GOOGLE_API_KEY });
 
 export const callGeminiApi = async (
   item: EvaluationItem,
-  schoolCategory: SchoolCategory
+  schoolCategory: SchoolCategory,
+  lengthInstruction: string
 ): Promise<string> => {
   const model = 'gemini-2.5-flash';
 
   try {
     const result = await ai.models.generateContent({
       model,
-      contents: getPrompt(schoolCategory, item.characteristics),
+      contents: getPrompt(
+        schoolCategory,
+        item.characteristics,
+        lengthInstruction
+      ),
       config: {
         thinkingConfig: {
           thinkingBudget: 0,
@@ -43,7 +48,8 @@ export const callGeminiApi = async (
 
 const getPrompt = (
   schoolCategory: SchoolCategory,
-  characteristics: string
+  characteristics: string,
+  lengthInstruction: string
 ): string => {
   switch (schoolCategory) {
     case 'kinder':
@@ -64,7 +70,7 @@ const getPrompt = (
 - 유아의 현재 발달 수준, 긍정적 변화 과정, 성장 가능성을 포함하여 서술합니다.
 
 [출력 형식]
-1.  **분량**: 총 10개 내외의 문장으로 구성
+1.  **분량**:  ${lengthInstruction}
 2.  **문체**: 객관적 관찰에 기반한 긍정적 어조
 3.  **문장 구조**:
     - 주어(유아 이름) 생략
@@ -118,7 +124,7 @@ const getPrompt = (
 - 학생의 변화와 성장 과정을 구체적인 사례를 통해 보여주어야 합니다.
 
 [출력 형식]
-1.  **분량**: 총 10개 내외의 문장으로 구성
+1.  **분량**:  ${lengthInstruction}
 2.  **문체**: 객관적 사실에 기반한 서술
 3.  **문장 구조**:
     - 주어(학생 이름) 생략
@@ -168,7 +174,7 @@ const getPrompt = (
   4.  **성장 가능성**: 현재까지의 긍정적 변화, 앞으로의 발전 가능성 및 기대
 
 [출력 형식]
-1.  **분량**: 총 10개 내외의 문장으로 구성
+1.  **분량**:  ${lengthInstruction}
 2.  **문체**: 객관적이고 긍정적인 어조
 3.  **문장 구조**:
     - 주어(학생 이름) 생략

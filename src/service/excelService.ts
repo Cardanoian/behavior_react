@@ -4,7 +4,7 @@ import { ExcelData, EvaluationItem, SchoolCategory } from '../model';
 export const readExcelFile = (
   file: File,
   schoolCategory: SchoolCategory
-): Promise<[ExcelData, XLSX.WorkBook]> => {
+): Promise<ExcelData> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -88,12 +88,9 @@ export const readExcelFile = (
           currentRow++;
         }
 
-        resolve([
-          {
-            evaluations,
-          },
-          workbook,
-        ]);
+        resolve({
+          evaluations,
+        });
       } catch (error) {
         reject(error);
       }
@@ -108,56 +105,31 @@ export const readExcelFile = (
 };
 
 export const generateExcelFile = (
-  workbook: XLSX.WorkBook | null,
   evaluations: EvaluationItem[],
   schoolCategory: SchoolCategory
 ): void => {
   // 새로운 워크북과 시트 생성
   const newWorkbook = XLSX.utils.book_new();
   const newSheet: XLSX.WorkSheet = {};
-  let sheetName: string;
+  const sheetName: string =
+    schoolCategory === 'kinder' ? '유아 행동발달상황' : '행동특성 및 종합의견';
 
-  if (workbook) {
-    sheetName = workbook.SheetNames[0];
-    const originalSheet = workbook.Sheets[sheetName];
+  newSheet['A1'] = { t: 's', v: '번호' };
+  newSheet['B1'] = {
+    t: 's',
+    v: schoolCategory === 'kinder' ? '유아특성' : '학생특성',
+  };
 
-    // 헤더 복사 (1행의 컬럼명만)
-    const columns = ['A', 'B']; // 실제 사용할 열들
-    if (schoolCategory === 'kinder') columns.push('C');
-
-    columns.forEach((col) => {
-      const cellAddress = `${col}1`;
-      if (originalSheet[cellAddress]) {
-        newSheet[cellAddress] = { ...originalSheet[cellAddress] };
-      }
-    });
-
-    // 열 너비 설정 (원본에서 복사)
-    if (originalSheet['!cols']) {
-      newSheet['!cols'] = originalSheet['!cols'];
-    }
+  const cols = [{ wch: 10 }, { wch: 50 }]; // 번호, 학생/유아특성
+  if (schoolCategory === 'kinder') {
+    newSheet['C1'] = { t: 's', v: '놀이활동' };
+    newSheet['D1'] = { t: 's', v: '생성결과' };
+    cols.push({ wch: 50 }, { wch: 80 }); // 놀이활동, 생성결과
   } else {
-    sheetName =
-      schoolCategory === 'kinder'
-        ? '유아 행동발달상황'
-        : '행동특성 및 종합의견';
-    newSheet['A1'] = { t: 's', v: '번호' };
-    newSheet['B1'] = {
-      t: 's',
-      v: schoolCategory === 'kinder' ? '유아특성' : '학생특성',
-    };
-
-    const cols = [{ wch: 10 }, { wch: 50 }]; // 번호, 학생/유아특성
-    if (schoolCategory === 'kinder') {
-      newSheet['C1'] = { t: 's', v: '놀이활동' };
-      newSheet['D1'] = { t: 's', v: '생성결과' };
-      cols.push({ wch: 50 }, { wch: 80 }); // 놀이활동, 생성결과
-    } else {
-      newSheet['C1'] = { t: 's', v: '생성결과' };
-      cols.push({ wch: 80 }); // 생성결과
-    }
-    newSheet['!cols'] = cols;
+    newSheet['C1'] = { t: 's', v: '생성결과' };
+    cols.push({ wch: 80 }); // 생성결과
   }
+  newSheet['!cols'] = cols;
 
   // 데이터 쓰기 (2행부터)
   evaluations.forEach((item, index) => {

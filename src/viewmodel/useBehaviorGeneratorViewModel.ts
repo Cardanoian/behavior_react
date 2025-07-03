@@ -1,13 +1,11 @@
 import { useState, useRef } from 'react';
-import * as XLSX from 'xlsx';
-import { EvaluationItem, SchoolCategory } from '../model';
+import { EvaluationItem, ExcelData, SchoolCategory } from '../model';
 import { generateExcelFile, readExcelFile } from '../service/excelService';
 import { callGeminiApi } from '../service/geminiService';
 
 export const useBehaviorGeneratorViewModel = () => {
   const [schoolCategory, setSchoolCategory] = useState<SchoolCategory>('ele');
   const [evaluations, setEvaluations] = useState<EvaluationItem[]>([]);
-  const [workbook, setWorkbook] = useState<XLSX.WorkBook | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [fileName, setFileName] = useState<string>('');
@@ -18,6 +16,9 @@ export const useBehaviorGeneratorViewModel = () => {
   const [inputNumber, setInputNumber] = useState('');
   const [inputCharacteristics, setInputCharacteristics] = useState('');
   const [inputActivity, setInputActivity] = useState('');
+  const [promptLength, setPromptLength] = useState<'짧게' | '보통' | '길게'>(
+    '보통'
+  );
 
   const handleAddEvaluation = () => {
     if (!inputNumber || !inputCharacteristics) {
@@ -41,7 +42,6 @@ export const useBehaviorGeneratorViewModel = () => {
 
   const handleReset = () => {
     setEvaluations([]);
-    setWorkbook(null);
     setInputNumber('');
     setInputCharacteristics('');
     setInputActivity('');
@@ -58,9 +58,8 @@ export const useBehaviorGeneratorViewModel = () => {
     if (file) {
       setFileName(file.name);
       try {
-        const [data, wb] = await readExcelFile(file, schoolCategory);
+        const data: ExcelData = await readExcelFile(file, schoolCategory);
         setEvaluations(data.evaluations);
-        setWorkbook(wb);
       } catch (error) {
         console.error('엑셀 파일 처리 중 오류 발생:', error);
         alert('파일 처리 중 오류가 발생했습니다.');
@@ -74,25 +73,31 @@ export const useBehaviorGeneratorViewModel = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // if (evaluations.length === 0) {
-    //   alert('자료가 없습니다.');
-    //   return;
-    // }
-
     setIsLoading(true);
     const updatedEvaluations = [...evaluations];
     const totalItems = evaluations.length;
 
+    const lengthInstruction =
+      promptLength === '짧게'
+        ? '간결하게 3문장 정도로 작성합니다.'
+        : promptLength === '길게'
+        ? '상세하게 10문장 이상, 15문장 이내로 작성합니다.'
+        : '보통 길이(5문장~8문장 정도)로 작성합니다.';
+
     try {
       for (let i = 0; i < evaluations.length; i++) {
         const item = evaluations[i];
-        const result = await callGeminiApi(item, schoolCategory);
+        const result = await callGeminiApi(
+          item,
+          schoolCategory,
+          lengthInstruction
+        );
         updatedEvaluations[i] = { ...item, result };
         setProgress(Math.round(((i + 1) / totalItems) * 100));
         setEvaluations([...updatedEvaluations]);
       }
 
-      generateExcelFile(workbook, updatedEvaluations, schoolCategory);
+      generateExcelFile(updatedEvaluations, schoolCategory);
     } catch (error) {
       console.error('행발 생성 중 오류 발생:', error);
       alert('행발 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
@@ -123,5 +128,7 @@ export const useBehaviorGeneratorViewModel = () => {
     handleReset,
     handleFileUpload,
     handleSubmit,
+    promptLength,
+    setPromptLength,
   };
 };
