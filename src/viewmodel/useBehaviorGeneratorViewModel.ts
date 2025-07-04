@@ -16,9 +16,8 @@ export const useBehaviorGeneratorViewModel = () => {
   const [inputNumber, setInputNumber] = useState('');
   const [inputCharacteristics, setInputCharacteristics] = useState('');
   const [inputActivity, setInputActivity] = useState('');
-  const [promptLength, setPromptLength] = useState<'짧게' | '보통' | '길게'>(
-    '보통'
-  );
+  const [promptLength, setPromptLength] = useState<number>(2);
+  const [isRandomLength, setIsRandomLength] = useState<boolean>(false);
 
   const handleAddEvaluation = () => {
     if (!inputNumber || !inputCharacteristics) {
@@ -46,6 +45,8 @@ export const useBehaviorGeneratorViewModel = () => {
     setInputCharacteristics('');
     setInputActivity('');
     setFileName('');
+    setIsRandomLength(false);
+    setPromptLength(2);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -77,12 +78,13 @@ export const useBehaviorGeneratorViewModel = () => {
     const updatedEvaluations = [...evaluations];
     const totalItems = evaluations.length;
 
-    const lengthInstruction =
-      promptLength === '짧게'
-        ? '간결하게 3문장 정도로 작성합니다.'
-        : promptLength === '길게'
-        ? '상세하게 10문장 이상, 15문장 이내로 작성합니다.'
-        : '보통 길이(5문장~8문장 정도)로 작성합니다.';
+    const lengthInstruction = isRandomLength
+      ? '3문장 이상 15문장 이하의 길이로 작성합니다.'
+      : promptLength === 1
+      ? '간결하게 3문장 정도로 작성합니다.'
+      : promptLength === 3
+      ? '상세하게 10문장 이상, 15문장 이내로 작성합니다.'
+      : '5문장~8문장의 보통 길이로 작성합니다.';
 
     try {
       for (let i = 0; i < evaluations.length; i++) {
@@ -130,5 +132,7 @@ export const useBehaviorGeneratorViewModel = () => {
     handleSubmit,
     promptLength,
     setPromptLength,
+    isRandomLength,
+    setIsRandomLength,
   };
 };

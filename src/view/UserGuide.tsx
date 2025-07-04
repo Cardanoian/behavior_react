@@ -50,8 +50,8 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
               <div className='p-3 bg-green-50 dark:bg-green-900/20 rounded-lg'>
                 <strong>생성 길이 조절</strong>
                 <br />
-                '짧게(3문장)', '보통(5-8문장)', '길게(10-15문장)' 중에서 선택
-                가능합니다.
+                슬라이더와 스위치를 사용하여 '짧게', '보통', '길게' 또는
+                '무작위'로 길이를 선택할 수 있습니다.
               </div>
               <div className='p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg'>
                 <strong>엑셀 파일 일괄 업로드</strong>
@@ -96,15 +96,25 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
 
               <div>
                 <h3 className='font-semibold mb-2'>📏 생성 길이 설정</h3>
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-2 text-sm'>
-                  <div className='p-2 bg-gray-50 dark:bg-gray-800 rounded'>
-                    <strong>짧게</strong>: 간결하게 3문장 정도
+
+                <p className='text-muted-foreground ml-4 mb-2'>
+                  <strong>"생성 길이"</strong> 컨트롤을 사용하여 생성될 텍스트의
+                  길이를 조절합니다.
+                </p>
+                <div className='space-y-2 ml-4'>
+                  <div className='p-3 bg-gray-50 dark:bg-gray-800 rounded-lg'>
+                    <h4 className='font-medium'>슬라이더</h4>
+                    <p className='text-sm text-muted-foreground'>
+                      '짧게', '보통', '길게' 세 단계로 길이를 직접 선택할 수
+                      있습니다.
+                    </p>
                   </div>
-                  <div className='p-2 bg-gray-50 dark:bg-gray-800 rounded'>
-                    <strong>보통</strong>: 5-8문장 정도 (기본값)
-                  </div>
-                  <div className='p-2 bg-gray-50 dark:bg-gray-800 rounded'>
-                    <strong>길게</strong>: 상세하게 10-15문장
+                  <div className='p-3 bg-gray-50 dark:bg-gray-800 rounded-lg'>
+                    <h4 className='font-medium'>무작위 스위치</h4>
+                    <p className='text-sm text-muted-foreground'>
+                      이 스위치를 켜면 슬라이더가 비활성화되고, 생성 시 세 가지
+                      길이 중 하나가 무작위로 선택됩니다.
+                    </p>
                   </div>
                 </div>
               </div>
