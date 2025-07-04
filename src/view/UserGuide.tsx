@@ -98,8 +98,10 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                 <h3 className='font-semibold mb-2'>📏 생성 길이 설정</h3>
 
                 <p className='text-muted-foreground ml-4 mb-2'>
-                  <strong>"생성 길이"</strong> 컨트롤을 사용하여 생성될 텍스트의
-                  길이를 조절합니다.
+                  <strong className='text-red-600 dark:text-red-400'>
+                    "생성 길이"
+                  </strong>{' '}
+                  컨트롤을 사용하여 생성될 텍스트의 길이를 조절합니다.
                 </p>
                 <div className='space-y-2 ml-4'>
                   <div className='p-3 bg-gray-50 dark:bg-gray-800 rounded-lg'>
@@ -144,8 +146,10 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                     </h4>
                     <ul className='list-disc list-inside space-y-1 text-sm text-muted-foreground ml-6'>
                       <li>
-                        <strong>"서식파일"</strong> 버튼(다운로드 아이콘)을
-                        클릭합니다.
+                        <strong className='text-red-600 dark:text-red-400'>
+                          "서식파일"
+                        </strong>{' '}
+                        버튼(다운로드 아이콘)을 클릭합니다.
                       </li>
                       <li>
                         선택한 학교급에 맞는 엑셀 템플릿 파일이 자동으로
@@ -192,8 +196,10 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                     </h4>
                     <ul className='list-disc list-inside space-y-1 text-sm text-muted-foreground ml-6'>
                       <li>
-                        <strong>"파일 선택"</strong> 버튼(업로드 아이콘)을
-                        클릭합니다.
+                        <strong className='text-red-600 dark:text-red-400'>
+                          "파일 선택"
+                        </strong>{' '}
+                        버튼(업로드 아이콘)을 클릭합니다.
                       </li>
                       <li>작성한 엑셀 파일(.xlsx 또는 .xls)을 선택합니다.</li>
                       <li>
@@ -239,7 +245,10 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                     <h4 className='font-medium mb-2'>3. 목록에 추가</h4>
                     <ul className='list-disc list-inside space-y-1 text-sm text-muted-foreground ml-4'>
                       <li>
-                        모든 필수 항목을 입력한 후 <strong>"추가"</strong>{' '}
+                        모든 필수 항목을 입력한 후{' '}
+                        <strong className='text-red-600 dark:text-red-400'>
+                          "추가"
+                        </strong>{' '}
                         버튼을 클릭합니다.
                       </li>
                       <li>
@@ -272,8 +281,11 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                 </h3>
                 <ul className='list-disc list-inside space-y-1 text-sm text-muted-foreground ml-6'>
                   <li>
-                    학생 데이터가 입력되면 <strong>"생성하기"</strong> 버튼(별
-                    아이콘)이 활성화됩니다.
+                    학생 데이터가 입력되면{' '}
+                    <strong className='text-red-600 dark:text-red-400'>
+                      "생성하기"
+                    </strong>{' '}
+                    버튼(별 아이콘)이 활성화됩니다.
                   </li>
                   <li>버튼을 클릭하여 AI 생성을 시작합니다.</li>
                 </ul>
