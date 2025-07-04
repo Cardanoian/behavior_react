@@ -3,7 +3,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
-    <ThemeProvider defaultTheme='system' storageKey='grade-generator-theme'>
+    <ThemeProvider defaultTheme='dark' storageKey='grade-generator-theme'>
       <div className='min-h-screen bg-background text-foreground transition-colors'>
         <BehaviorGenerator />
       </div>
