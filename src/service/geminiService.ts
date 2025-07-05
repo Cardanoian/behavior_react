@@ -1,3 +1,4 @@
+import { model } from '@/constants/constants';
 import { GoogleGenAI } from '@google/genai';
 
 const ai = new GoogleGenAI({
@@ -5,8 +6,6 @@ const ai = new GoogleGenAI({
 });
 
 export const callGeminiApi = async (prompt: string): Promise<string> => {
-  const model = 'gemini-2.5-flash';
-
   try {
     const result = await ai.models.generateContent({
       model,
