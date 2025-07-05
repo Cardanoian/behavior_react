@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import { EvaluationItem, ExcelData, SchoolCategory } from '../model';
 import { generateExcelFile, readExcelFile } from '../service/excelService';
 import { callGeminiApi } from '../service/geminiService';
+import getPrompt from '@/service/promptService';
+import { logAppUsage } from '@/service/supabaseService';
 
 export const useBehaviorGeneratorViewModel = () => {
   const [schoolCategory, setSchoolCategory] = useState<SchoolCategory>('ele');
@@ -28,10 +30,12 @@ export const useBehaviorGeneratorViewModel = () => {
       number: inputNumber,
       characteristics: inputCharacteristics,
       result: '',
+      activity: inputActivity,
     };
     setEvaluations([...evaluations, newItem]);
     setInputNumber('');
     setInputCharacteristics('');
+    setInputActivity('');
     setInputActivity('');
   };
 
@@ -89,14 +93,17 @@ export const useBehaviorGeneratorViewModel = () => {
     try {
       for (let i = 0; i < evaluations.length; i++) {
         const item = evaluations[i];
-        const result = await callGeminiApi(
-          item,
+        const prompt = getPrompt(
           schoolCategory,
-          lengthInstruction
+          item.characteristics,
+          lengthInstruction,
+          item.activity
         );
+        const result = await callGeminiApi(prompt);
         updatedEvaluations[i] = { ...item, result };
         setProgress(Math.round(((i + 1) / totalItems) * 100));
         setEvaluations([...updatedEvaluations]);
+        logAppUsage(prompt, result);
       }
 
       generateExcelFile(updatedEvaluations, schoolCategory);

@@ -303,9 +303,18 @@ const BehaviorGenerator: React.FC = () => {
                     <TableRow>
                       <TableHead className='w-16 text-center'>삭제</TableHead>
                       <TableHead className='w-16 text-center'>번호</TableHead>
-                      <TableHead className='w-[30%] text-center'>
+                      <TableHead
+                        className={`text-center ${
+                          schoolCategory === 'kinder' ? 'w-[20%]' : 'w-[30%]'
+                        }`}
+                      >
                         학생 특성
                       </TableHead>
+                      {schoolCategory === 'kinder' && (
+                        <TableHead className='w-[20%] text-center'>
+                          놀이 활동
+                        </TableHead>
+                      )}
                       <TableHead className='w-auto text-center'>
                         행동발달 및 종합의견
                       </TableHead>
@@ -330,6 +339,11 @@ const BehaviorGenerator: React.FC = () => {
                         <TableCell className='p-2 align-middle break-keep text-center'>
                           {item.characteristics}
                         </TableCell>
+                        {schoolCategory === 'kinder' && (
+                          <TableCell className='p-2 align-middle break-keep text-center'>
+                            {item.activity}
+                          </TableCell>
+                        )}
                         <TableCell className='p-2 align-middle whitespace-pre-wrap break-keep text-center'>
                           {item.result}
                         </TableCell>
