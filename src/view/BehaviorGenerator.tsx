@@ -171,7 +171,7 @@ const BehaviorGenerator: React.FC = () => {
                   초기화
                 </Button>
 
-                <Button
+                {/* <Button
                   onClick={() => setIsUserGuideOpen(true)}
                   variant='outline'
                   disabled={isLoading}
@@ -179,7 +179,7 @@ const BehaviorGenerator: React.FC = () => {
                 >
                   <HelpCircle className='h-4 w-4' />
                   사용방법
-                </Button>
+                </Button> */}
               </div>
 
               <div className='space-y-2 flex flex-wrap gap-3 items-center'>
