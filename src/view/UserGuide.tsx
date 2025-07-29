@@ -57,12 +57,14 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                 <strong>엑셀 파일 일괄 업로드</strong>
                 <br />
                 지정된 서식의 엑셀 파일로 여러 학생의 데이터를 한 번에 입력할 수
-                있습니다.
+                있으며, 특성 및 행동 항목에 대한 최소 글자수 유효성 검사가
+                적용됩니다.
               </div>
               <div className='p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg'>
                 <strong>개별 입력</strong>
                 <br />
-                UI에서 직접 학생 정보를 입력하고 목록에 추가할 수 있습니다.
+                UI에서 직접 학생 정보를 입력하고 목록에 추가할 수 있으며, 특성
+                및 행동 항목에 대한 최소 글자수 제한 기능이 적용됩니다.
               </div>
             </div>
           </div>
@@ -179,13 +181,20 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                         <p>• 번호: "1", "2", "3" 등</p>
                         <p>
                           • 학생 특성: "만들기를 좋아하고 자연물로 그림 그리는
-                          것을 즐김. 친구에게 선물하는 것을 좋아함."
+                          것을 즐김. 친구에게 선물하는 것을 좋아함." (최소 50자
+                          이상)
                         </p>
                         <p>
                           • 놀이 활동: "산책 시간에 돌멩이나 꽃잎을 주워서 미술
                           활동에 사용함."
                         </p>
                       </div>
+                      <p className='text-sm text-amber-600 dark:text-amber-400 mt-2'>
+                        ⚠️ '학생 특성' 항목은 AI 생성 품질을 위해 최소 50자 이상
+                        입력하는 것을 권장합니다. 50자 미만으로 입력 시 경고
+                        메시지가 표시되며, 엑셀 업로드 시 해당 항목은 자동으로
+                        제외됩니다.
+                      </p>
                     </div>
                   </div>
 
@@ -207,6 +216,10 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                         목록이 하단 테이블에 자동으로 추가됩니다.
                       </li>
                     </ul>
+                    <p className='text-sm text-amber-600 dark:text-amber-400 mt-2'>
+                      ⚠️ 엑셀 파일 내 '학생 특성' 항목이 최소 50자 미만인 경우,
+                      해당 항목은 자동으로 목록에서 제외됩니다.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -232,13 +245,18 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                       </li>
                       <li>
                         <strong>학생 특성</strong>: 학생의 행동 특성, 성향, 장점
-                        등을 구체적으로 입력합니다.
+                        등을 구체적으로 입력합니다. (최소 50자 이상 권장)
                       </li>
                       <li>
                         <strong>놀이 활동</strong> (유치원 선택 시만 표시):
                         놀이와 관련된 구체적인 활동 내용을 입력합니다.
                       </li>
                     </ul>
+                    <p className='text-sm text-amber-600 dark:text-amber-400 mt-2'>
+                      ⚠️ '학생 특성' 항목은 AI 생성 품질을 위해 최소 50자 이상
+                      입력하는 것을 권장합니다. 50자 미만으로 입력 시 경고
+                      메시지가 표시됩니다.
+                    </p>
                   </div>
 
                   <div>
@@ -450,6 +468,15 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
                     <div>
                       <strong>파일 형식:</strong> 엑셀 파일은 .xlsx 또는 .xls
                       형식만 지원됩니다.
+                    </div>
+                  </li>
+                  <li className='flex items-start gap-2'>
+                    <span className='text-orange-500 font-bold'>📝</span>
+                    <div>
+                      <strong>최소 글자수 제한:</strong> '학생 특성' 항목은 AI
+                      생성 품질을 위해 최소 50자 이상 입력하는 것을 권장합니다.
+                      50자 미만으로 입력 시 경고 메시지가 표시되며, 엑셀 업로드
+                      시 해당 항목은 자동으로 제외됩니다.
                     </div>
                   </li>
                   <li className='flex items-start gap-2'>

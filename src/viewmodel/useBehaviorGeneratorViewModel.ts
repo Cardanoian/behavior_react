@@ -4,6 +4,7 @@ import { generateExcelFile, readExcelFile } from '../service/excelService';
 import { callGeminiApi } from '../service/geminiService';
 import getPrompt from '@/service/promptService';
 import { logAppUsage } from '@/service/supabaseService';
+import { lengthLimit } from '@/constants/constants';
 
 export const useBehaviorGeneratorViewModel = () => {
   const [schoolCategory, setSchoolCategory] = useState<SchoolCategory>('ele');
@@ -24,6 +25,10 @@ export const useBehaviorGeneratorViewModel = () => {
   const handleAddEvaluation = () => {
     if (!inputNumber || !inputCharacteristics) {
       alert('모든 항목을 입력해주세요.');
+      return;
+    }
+    if (inputCharacteristics.length < lengthLimit) {
+      alert(`특성 및 행동은 최소 ${lengthLimit}자 이상 입력해주세요.`);
       return;
     }
     const newItem: EvaluationItem = {
@@ -64,7 +69,15 @@ export const useBehaviorGeneratorViewModel = () => {
       setFileName(file.name);
       try {
         const data: ExcelData = await readExcelFile(file, schoolCategory);
-        setEvaluations(data.evaluations);
+        const validEvaluations = data.evaluations.filter(
+          (item) => item.characteristics.length >= lengthLimit
+        );
+        if (validEvaluations.length < data.evaluations.length) {
+          alert(
+            `엑셀 파일에 최소 ${lengthLimit}자 미만인 특성 및 행동 항목이 있습니다. 해당 항목은 제외됩니다.`
+          );
+        }
+        setEvaluations(validEvaluations);
       } catch (error) {
         console.error('엑셀 파일 처리 중 오류 발생:', error);
         alert('파일 처리 중 오류가 발생했습니다.');

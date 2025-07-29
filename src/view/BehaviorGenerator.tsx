@@ -336,15 +336,15 @@ const BehaviorGenerator: React.FC = () => {
                         <TableCell className='text-center'>
                           {item.number}
                         </TableCell>
-                        <TableCell className='p-2 align-middle break-keep text-center'>
+                        <TableCell className='p-2 align-middle whitespace-pre-wrap break-words text-center'>
                           {item.characteristics}
                         </TableCell>
                         {schoolCategory === 'kinder' && (
-                          <TableCell className='p-2 align-middle break-keep text-center'>
+                          <TableCell className='p-2 align-middle whitespace-pre-wrap break-words text-center'>
                             {item.activity}
                           </TableCell>
                         )}
-                        <TableCell className='p-2 align-middle whitespace-pre-wrap break-keep text-center'>
+                        <TableCell className='p-2 align-middle whitespace-pre-wrap break-words text-center'>
                           {item.result}
                         </TableCell>
                       </TableRow>
