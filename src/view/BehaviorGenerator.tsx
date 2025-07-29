@@ -17,7 +17,7 @@ import {
   Trash2,
   Upload,
   RotateCcw,
-  HelpCircle,
+  // HelpCircle,
   Sparkles,
   Download,
 } from 'lucide-react';
