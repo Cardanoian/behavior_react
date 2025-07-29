@@ -102,10 +102,10 @@ const BehaviorGenerator: React.FC = () => {
                     <RadioGroupItem value='ele' id='ele-item' />
                     <Label htmlFor='ele-item'>초등학교</Label>
                   </div>
-                  <div className='flex items-center space-x-2'>
+                  {/* <div className='flex items-center space-x-2'>
                     <RadioGroupItem value='mid' id='mid-item' />
                     <Label htmlFor='mid-item'>중,고등학교</Label>
-                  </div>
+                  </div> */}
                 </RadioGroup>
               </div>
               <div className='space-y-2'>
@@ -358,8 +358,8 @@ const BehaviorGenerator: React.FC = () => {
 
         {/* 푸터 */}
         <div className='text-center text-muted-foreground text-sm py-8'>
-          <p>포항원동초등학교</p>
-          <p>교사 김지원 제작</p>
+          {/* <p>포항원동초등학교</p>
+          <p>교사 김지원 제작</p> */}
         </div>
       </div>
       {isUserGuideOpen && (
