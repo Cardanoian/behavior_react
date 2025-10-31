@@ -102,10 +102,10 @@ const BehaviorGenerator: React.FC = () => {
                     <RadioGroupItem value='ele' id='ele-item' />
                     <Label htmlFor='ele-item'>초등학교</Label>
                   </div>
-                  {/* <div className='flex items-center space-x-2'>
+                  <div className='flex items-center space-x-2'>
                     <RadioGroupItem value='mid' id='mid-item' />
                     <Label htmlFor='mid-item'>중,고등학교</Label>
-                  </div> */}
+                  </div>
                 </RadioGroup>
               </div>
               <div className='space-y-2'>
